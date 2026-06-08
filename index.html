@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Tra cứu HD06 — VPTW</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --red: #B01228;
+      --red-soft: #f3dfe2;
+      --ink: #1c1a17;
+      --ink-2: #55504a;
+      --paper: #faf6ef;
+      --card: #ffffff;
+      --line: #e7e0d4;
+      --gold: #9a7b2e;
+      --shadow: 0 1px 2px rgba(28, 26, 23, .06), 0 8px 24px -12px rgba(28, 26, 23, .18);
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0
+    }
+
+    body {
+      font-family: "Be Vietnam Pro", "Segoe UI", Tahoma, Arial, sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.5;
+      font-size: 16px;
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    .wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 14px 64px
+    }
+
+    /* ===== Header ===== */
+    header.top {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: linear-gradient(180deg, var(--paper) 70%, rgba(250, 246, 239, .0));
+      padding-top: env(safe-area-inset-top);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 14px 10px;
+      max-width: 760px;
+      margin: 0 auto
+    }
+
+    .brand .star {
+      width: 34px;
+      height: 34px;
+      flex: none;
+      border-radius: 8px;
+      background: var(--red);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 18px;
+      box-shadow: var(--shadow)
+    }
+
+    .brand h1 {
+      font-family: "Be Vietnam Pro", sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      margin: 0;
+      letter-spacing: .2px
+    }
+
+    .brand p {
+      margin: 0;
+      font-size: 11.5px;
+      color: var(--ink-2);
+      font-weight: 500
+    }
+
+    .searchbox {
+      padding: 0 14px 8px;
+      max-width: 760px;
+      margin: 0 auto
+    }
+
+    .searchbox .field {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--card);
+      border: 1.5px solid var(--line);
+      border-radius: 13px;
+      padding: 11px 13px;
+      box-shadow: var(--shadow)
+    }
+
+    .searchbox input {
+      border: 0;
+      outline: 0;
+      width: 100%;
+      font: inherit;
+      font-size: 16px;
+      background: transparent;
+      color: var(--ink)
+    }
+
+    .searchbox svg {
+      flex: none;
+      color: var(--ink-2)
+    }
+
+    .clearbtn {
+      border: 0;
+      background: var(--line);
+      color: var(--ink-2);
+      border-radius: 50%;
+      width: 22px;
+      height: 22px;
+      font-size: 14px;
+      line-height: 1;
+      cursor: pointer;
+      flex: none;
+      display: none
+    }
+
+    .clearbtn.show {
+      display: block
+    }
+
+    /* ===== Tabs ===== */
+    .tabs {
+      display: flex;
+      gap: 6px;
+      padding: 4px 14px 10px;
+      max-width: 760px;
+      margin: 0 auto;
+      overflow-x: auto;
+      scrollbar-width: none
+    }
+
+    .tabs::-webkit-scrollbar {
+      display: none
+    }
+
+    .tab {
+      flex: none;
+      border: 1.5px solid var(--line);
+      background: var(--card);
+      color: var(--ink-2);
+      padding: 8px 14px;
+      border-radius: 20px;
+      font: inherit;
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: .15s
+    }
+
+    .tab.active {
+      background: var(--red);
+      color: #fff;
+      border-color: var(--red)
+    }
+
+    /* ===== Content ===== */
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 4px 0 14px
+    }
+
+    .chip {
+      font-size: 11.5px;
+      font-weight: 600;
+      background: var(--red-soft);
+      color: var(--red);
+      padding: 4px 10px;
+      border-radius: 999px
+    }
+
+    .chip.gray {
+      background: #eee9df;
+      color: var(--ink-2)
+    }
+
+    .grouphead {
+      font-family: "Be Vietnam Pro", sans-serif;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin: 22px 2px 9px
+    }
+
+    .grouphead:first-of-type {
+      margin-top: 6px
+    }
+
+    .card {
+      background: var(--card);
+      border: 1.5px solid var(--line);
+      border-radius: 14px;
+      margin-bottom: 9px;
+      overflow: hidden;
+      box-shadow: var(--shadow)
+    }
+
+    .card>button.head {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      text-align: left;
+      cursor: pointer;
+      padding: 13px 15px;
+      display: flex;
+      gap: 11px;
+      align-items: flex-start;
+      font: inherit
+    }
+
+    .num {
+      font-family: "Be Vietnam Pro", sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--red);
+      flex: none;
+      min-width: 20px;
+      line-height: 1.45
+    }
+
+    .htext {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 5px
+    }
+
+    .htext .t {
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--ink);
+      line-height: 1.35
+    }
+
+    .htext .s {
+      font-size: 13px;
+      color: var(--ink-2);
+      line-height: 1.4
+    }
+
+    .chev {
+      flex: none;
+      color: var(--ink-2);
+      transition: transform .2s;
+      margin-top: 3px
+    }
+
+    .card.open .chev {
+      transform: rotate(180deg)
+    }
+
+    .body {
+      display: none;
+      padding: 0 15px 15px;
+      animation: fade .2s ease
+    }
+
+    .card.open .body {
+      display: block
+    }
+
+    @keyframes fade {
+      from {
+        opacity: 0;
+        transform: translateY(-3px)
+      }
+
+      to {
+        opacity: 1
+      }
+    }
+
+    .body p {
+      margin: 0 0 8px
+    }
+
+    .body ul {
+      margin: 2px 0 10px;
+      padding-left: 18px
+    }
+
+    .body li {
+      margin-bottom: 5px;
+      font-size: 14.5px
+    }
+
+    .body .pin {
+      background: var(--red-soft);
+      color: var(--red);
+      font-weight: 600;
+      font-size: 13px;
+      padding: 7px 11px;
+      border-radius: 9px;
+      margin: 2px 0 10px;
+      display: block
+    }
+
+    .body b {
+      color: var(--ink)
+    }
+
+    .kbd {
+      font-family: "Be Vietnam Pro", sans-serif;
+      font-weight: 600;
+      background: #f0ebe0;
+      border: 1px solid var(--line);
+      padding: 1px 7px;
+      border-radius: 6px;
+      font-size: 13.5px;
+      color: var(--ink);
+      white-space: nowrap
+    }
+
+    /* ===== Tables ===== */
+    .tbl {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 2px 0 6px;
+      font-size: 13.5px
+    }
+
+    .tbl th,
+    .tbl td {
+      border: 1px solid var(--line);
+      padding: 7px 9px;
+      text-align: left;
+      vertical-align: top
+    }
+
+    .tbl th {
+      background: #f3eee3;
+      font-weight: 600;
+      font-size: 12.5px;
+      color: var(--ink-2)
+    }
+
+    .tbl td .kbd {
+      font-size: 13px
+    }
+
+    .tbl tr:nth-child(even) td {
+      background: #fcfaf5
+    }
+
+    .empty {
+      text-align: center;
+      color: var(--ink-2);
+      padding: 48px 20px;
+      font-size: 14.5px
+    }
+
+    .empty b {
+      display: block;
+      color: var(--ink);
+      font-size: 16px;
+      margin-bottom: 4px
+    }
+
+    mark {
+      background: #ffe9a8;
+      color: inherit;
+      padding: 0 1px;
+      border-radius: 3px
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 11.5px;
+      color: var(--ink-2);
+      margin-top: 26px;
+      line-height: 1.6
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="top">
+    <div class="brand">
+      <div class="star">★</div>
+      <div>
+        <h1>Tra cứu HD06</h1>
+        <p>Lập và nộp hồ sơ lưu trữ — VPTW</p>
+      </div>
+    </div>
+    <div class="searchbox">
+      <div class="field">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <circle cx="11" cy="11" r="7" />
+          <path d="m20 20-3.5-3.5" />
+        </svg>
+        <input id="q" type="search" inputmode="search" placeholder="Tìm: ký hiệu, định lề, mã hồ sơ, thời hạn…"
+          autocomplete="off">
+        <button class="clearbtn" id="clear" aria-label="Xóa">×</button>
+      </div>
+    </div>
+    <div class="tabs" id="tabs">
+      <button class="tab active" data-tab="hd06">HD06 · Hồ sơ lưu trữ</button>
+    </div>
+  </header>
+
+  <main class="wrap" id="main"></main>
+
+  <script>
+    /* ---------- DỮ LIỆU ---------- */
+    const DATA = {
+      hd06: {
+        meta: ['Hiệu lực 29/5/2026', 'Thay HD 17-HD/VPTW (2016)', 'Số 06-HD/VPTW'],
+        groups: [
+          {
+            name: 'Cốt lõi', items: [
+              {
+                t: 'Mã hồ sơ', s: 'Mã cơ quan . đơn vị . phòng . năm . số — Ví dụ A80.07.NVTW.2026.01',
+                body: `<span class="pin">[Mã cơ quan] . [đơn vị] . [ký hiệu phòng] . [năm] . [số thứ tự]</span>
+        <ul><li>Phân cách các thành phần bằng <b>dấu chấm</b>.</li>
+        <li>Mỗi hồ sơ một mã <b>duy nhất</b>; mọi văn bản trong cùng hồ sơ phải có cùng mã.</li></ul>
+        <p><b>Ví dụ:</b> <span class="kbd">A80.07.NVTW.2026.01</span><br>
+        là Văn phòng Trung ương Đảng (A80), Cục Lưu trữ (07), Phòng Nghiệp vụ trung ương (NVTW), năm 2026, hồ sơ số 01.</p>`,
+                k: 'ma ho so cau truc dau cham ma dinh danh co quan don vi phong nam so thu tu a80 07 nvtw 2026'
+              },
+              {
+                t: 'Yêu cầu của một hồ sơ', s: 'Đúng chức năng · đủ tài liệu · bản gốc, bản chính · đủ trường',
+                body: `<ul><li>Phản ánh đúng chức năng, nhiệm vụ; đủ tài liệu, liên quan chặt chẽ, đúng trình tự.</li>
+        <li>Tài liệu là <b>bản gốc, bản chính</b>; không còn thì chọn bản sao hợp pháp.</li>
+        <li>Bắt buộc có: tiêu đề, <b>mã hồ sơ</b>, thời hạn lưu trữ, người lập, thời gian bắt đầu, thời gian kết thúc.</li>
+        <li>Đánh số trang (hồ sơ giấy); lập mục lục văn bản với hồ sơ <b>vĩnh viễn và 70 năm</b>.</li>
+        <li>Có cả giấy và điện tử thì <b>ưu tiên lập hồ sơ điện tử</b>.</li></ul>`,
+                k: 'yeu cau ho so dung chuc nang ban goc ban chinh tieu de ma ho so thoi han luu tru muc luc vinh vien 70 nam uu tien dien tu'
+              },
+              {
+                t: 'Danh mục hồ sơ', s: 'Người đứng đầu duyệt · áp dụng từ 01 tháng 01 · trên phần mềm',
+                body: `<ul><li>Khung đề mục theo <b>cơ cấu tổ chức</b> (đơn vị là đề mục lớn).</li>
+        <li>Người đứng đầu phê duyệt; ban hành và thực hiện từ ngày <b>01 tháng 01</b> của năm; cập nhật lên phần mềm làm căn cứ lập hồ sơ.</li>
+        <li>Hồ sơ phát sinh ngoài danh mục thì bổ sung mã sau khi được duyệt.</li>
+        <li>Thành phần: mã hồ sơ, đề mục và tiêu đề, thời hạn lưu trữ, đơn vị/người lập, ghi chú.</li></ul>`,
+                k: 'danh muc ho so nguoi dung dau phe duyet 01 01 phan mem khung de muc co cau to chuc'
+              },
+            ]
+          },
+          {
+            name: 'Quy trình lập hồ sơ', items: [
+              {
+                t: 'Hồ sơ điện tử — 3 bước', s: 'Mở, thu thập, kết thúc',
+                body: `<ul><li><b>Mở:</b> xác định mã hồ sơ trên phần mềm. Văn bản đi: mở trước khi dự thảo. Văn bản đến: người được giao mở hồ sơ.</li>
+        <li><b>Thu thập:</b> gom đủ văn bản đi, văn bản đến, ý kiến chỉ đạo, giải trình… Cùng mã thì phần mềm tự tích hợp. Tài liệu giấy, ảnh thì số hoá (trừ "Tuyệt mật").</li>
+        <li><b>Kết thúc:</b> rà soát, cập nhật "Chứng từ kết thúc" (số trang, số tài liệu, đặc điểm, người lập); kiểm tra lại các trường thông tin.</li></ul>`,
+                k: 'ho so dien tu mo thu thap ket thuc phan mem so hoa chung tu ket thuc van ban di den'
+              },
+              {
+                t: 'Hồ sơ giấy — 3 bước', s: 'Mở, thu thập, kết thúc (biên mục)',
+                body: `<ul><li><b>Mở:</b> lưu trữ hiện hành cấp bìa đầu năm; cá nhân mở hồ sơ theo danh mục (hoặc tự xác định nếu chưa có).</li>
+        <li><b>Thu thập và sắp xếp:</b> gom đủ tài liệu (kể cả phụ lục, băng đĩa…); <b>không</b> thu bản thu hồi, bản trùng thừa, bản nháp.</li>
+        <li><b>Kết thúc — biên mục theo thứ tự:</b> đánh số trang, lập mục lục văn bản, lập chứng từ kết thúc, viết bìa hồ sơ.</li></ul>`,
+                k: 'ho so giay mo thu thap sap xep ket thuc bien muc danh so trang muc luc chung tu ket thuc viet bia'
+              },
+              {
+                t: 'Sắp xếp tài liệu trong hồ sơ', s: '4 cách: trình tự giải quyết · ngày tháng · số văn bản · vần chữ cái',
+                body: `<ul><li><b>Trình tự giải quyết:</b> khởi đầu, giải quyết, tổng kết.</li>
+        <li><b>Ngày tháng ban hành:</b> một loại văn bản của một cơ quan.</li>
+        <li><b>Số văn bản:</b> một loại của cùng một tác giả (số nhỏ xếp trên, số lớn xếp dưới) — dùng cho tập lưu văn bản đi.</li>
+        <li><b>Vần chữ cái a, b, c:</b> cùng loại của nhiều cơ quan, nhiều cá nhân.</li></ul>
+        <p>Hồ sơ dày trên <b>3 cm</b> thì tách thành đơn vị bảo quản (không nên dưới 1 cm).</p>`,
+                k: 'sap xep tai lieu trinh tu giai quyet ngay thang so van ban van chu cai don vi bao quan 3cm dvbq'
+              },
+              {
+                t: 'Đánh số trang', s: 'Bút chì đen · góc phải trên · cách mép 1 cm',
+                body: `<ul><li>Số thứ tự liên tục từ 1, chữ số Ả-rập, <b>bút chì đen</b>, góc phải trên, cách mép 1 cm.</li>
+        <li>Chỉ đánh số trang với hồ sơ thời hạn lưu trữ <b>trên 20 năm</b>.</li>
+        <li>Không đánh số trang trắng. Sót số thì thêm a, b, c (15a, 15b…). Loại tài liệu thì bỏ trống số trang đó.</li>
+        <li>Tư liệu, quyển thì đánh 1 số chung.</li></ul>`,
+                k: 'danh so trang but chi den goc phai tren 1 cm tren 20 nam trang trang khong danh sot so 15a 15b'
+              },
+            ]
+          },
+          {
+            name: 'Nộp lưu và quy tắc thời gian', items: [
+              {
+                t: 'Thời hạn nộp vào lưu trữ hiện hành', s: 'Tối đa 1 năm · xây dựng cơ bản 3 tháng · giữ lại không quá 2 năm',
+                body: `<table class="tbl"><tr><th>Loại</th><th>Thời hạn nộp</th></tr>
+        <tr><td>Hồ sơ thông thường</td><td>Tối đa <b>1 năm</b> từ năm kết thúc công việc</td></tr>
+        <tr><td>Hồ sơ xây dựng cơ bản</td><td><b>3 tháng</b> kể từ ngày quyết toán</td></tr>
+        <tr><td>Đảng uỷ, Đoàn Thanh niên, Hội Cựu chiến binh</td><td>Sau nhiệm kỳ <b>không quá 3 tháng</b></td></tr>
+        <tr><td>Giữ lại để dùng</td><td>Người đứng đầu đồng ý, <b>không quá 2 năm</b> kể từ ngày đến hạn</td></tr></table>`,
+                k: 'thoi han nop luu tru hien hanh toi da 1 nam xay dung co ban 3 thang dang uy doan thanh nien hoi cuu chien binh nhiem ky giu lai 2 nam'
+              },
+              {
+                t: 'Quy tắc xếp năm cho hồ sơ', s: 'Nội dung năm nào xếp năm đó · nhiều năm xếp năm đầu hoặc năm cuối',
+                body: `<ul><li>Tài liệu phản ánh năm nào thì xếp năm đó.<br><i>Ví dụ: Báo cáo tổng kết năm 2025 ban hành tháng 01 năm 2026 thì xếp năm <b>2025</b>.</i></li>
+        <li>Chương trình, kế hoạch nhiều năm thì xếp <b>năm đầu</b>.</li>
+        <li>Báo cáo tổng kết nhiều năm thì xếp <b>năm cuối</b>.</li></ul>`,
+                k: 'quy tac xep nam noi dung nam nao xep nam do nhieu nam nam dau nam cuoi chuong trinh ke hoach bao cao tong ket'
+              },
+              {
+                t: 'Thủ tục giao nộp', s: 'Lập Mục lục hồ sơ và Biên bản giao nhận (ký số hoặc ký tay)',
+                body: `<ul><li>Điện tử: bấm nút chuyển nộp, đăng ký phiếu nộp, lưu trữ hiện hành rà soát rồi đồng ý hoặc từ chối, lập Biên bản giao nhận (ký số của bên giao và bên nhận).</li>
+        <li>Giấy: lập "Mục lục hồ sơ, tài liệu", hai bên đối chiếu thực tế, lập Biên bản giao nhận có chữ ký và xác nhận của lãnh đạo đơn vị giao và đơn vị nhận.</li>
+        <li><b>Không phải nộp:</b> hồ sơ nguyên tắc, hồ sơ thời hạn lưu trữ 5 năm trở xuống, văn bản gửi để biết, tư liệu, bản nháp.</li></ul>`,
+                k: 'thu tuc giao nop muc luc ho so bien ban giao nhan ky so doi chieu khong phai nop nguyen tac 5 nam'
+              },
+            ]
+          },
+          {
+            name: 'Thuật ngữ và mẫu', items: [
+              {
+                t: 'Thuật ngữ chính', s: 'Hồ sơ · đơn vị bảo quản · chứng từ kết thúc · mục lục…',
+                body: `<ul><li><b>Hồ sơ:</b> tập hợp văn bản, tài liệu liên quan về một vấn đề, một sự việc, một đối tượng.</li>
+        <li><b>Đơn vị bảo quản (đvbq):</b> đơn vị thống kê, quản lý, tra tìm trong lưu trữ.</li>
+        <li><b>Tiêu đề hồ sơ:</b> mô tả ngắn gọn nội dung — gồm tên loại, tác giả, nội dung, địa điểm, thời gian.</li>
+        <li><b>Mục lục văn bản:</b> bảng kê có hệ thống các văn bản và vị trí trong hồ sơ.</li>
+        <li><b>Chứng từ kết thúc:</b> bản ghi số trang, đặc điểm, tình trạng vật lý.</li>
+        <li><b>Lưu trữ hiện hành:</b> đơn vị, bộ phận thực hiện lưu trữ tài liệu của cơ quan.</li></ul>`,
+                k: 'thuat ngu ho so don vi bao quan dvbq tieu de muc luc van ban chung tu ket thuc luu tru hien hanh ma ho so'
+              },
+              {
+                t: 'Bộ mẫu (phụ lục)', s: '6 phụ lục: danh mục, mục lục văn bản, chứng từ, bìa, mục lục hồ sơ, biên bản',
+                body: `<ul><li>Phụ lục 1 — Danh mục hồ sơ cơ quan</li>
+        <li>Phụ lục 2 — Mục lục văn bản, tài liệu (Excel, mẫu thống nhất)</li>
+        <li>Phụ lục 3 — Chứng từ kết thúc</li>
+        <li>Phụ lục 4 — Bìa hồ sơ</li>
+        <li>Phụ lục 5 — Mục lục hồ sơ, tài liệu (đính kèm khi nộp)</li>
+        <li>Phụ lục 6 — Biên bản giao, nhận hồ sơ, tài liệu giấy</li></ul>`,
+                k: 'mau phu luc danh muc ho so muc luc van ban chung tu ket thuc bia ho so bien ban giao nhan excel'
+              },
+            ]
+          },
+        ]
+      }
+    };
+
+    /* ---------- RENDER ---------- */
+    const main = document.getElementById('main');
+    const tabsEl = document.getElementById('tabs');
+    const qEl = document.getElementById('q');
+    const clearEl = document.getElementById('clear');
+    let current = 'hd06', query = '';
+
+    function norm(s) {
+      return (s || '').toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd');
+    }
+
+    function hl(text, q) {
+      if (!q) return text;
+      const nq = norm(q), nt = norm(text);
+      const i = nt.indexOf(nq);
+      if (i < 0) return text;
+      return text.slice(0, i) + '<mark>' + text.slice(i, i + q.length) + '</mark>' + text.slice(i + q.length);
+    }
+
+    function render() {
+      const d = DATA[current];
+      const nq = norm(query.trim());
+      let html = '';
+      html += '<div class="meta">' + d.meta.map((m, i) => '<span class="chip' + (i ? ' gray' : '') + '">' + m + '</span>').join('') + '</div>';
+      let shown = 0;
+      d.groups.forEach(g => {
+        const matched = g.items.filter(it => {
+          if (!nq) return true;
+          return norm(it.t + ' ' + it.s + ' ' + (it.k || '') + ' ' + it.body).includes(nq);
+        });
+        if (!matched.length) return;
+        html += '<div class="grouphead">' + g.name + '</div>';
+        matched.forEach(it => {
+          shown++;
+          const open = nq ? ' open' : '';
+          html += '<div class="card' + open + '">'
+            + '<button class="head" type="button">'
+            + (it.n ? '<span class="num">' + it.n + '</span>' : '')
+            + '<span class="htext"><span class="t">' + hl(it.t, query.trim()) + '</span>'
+            + '<span class="s">' + hl(it.s, query.trim()) + '</span></span>'
+            + '<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m6 9 6 6 6-6"/></svg>'
+            + '</button>'
+            + '<div class="body">' + it.body + '</div>'
+            + '</div>';
+        });
+      });
+      if (!shown) {
+        html += '<div class="empty"><b>Không tìm thấy</b>Thử từ khoá khác, ví dụ: <i>định lề, ký hiệu, mã hồ sơ, thời hạn</i>.</div>';
+      }
+      main.innerHTML = html;
+      main.querySelectorAll('.card').forEach(c => {
+        c.querySelector('.head').addEventListener('click', () => c.classList.toggle('open'));
+      });
+    }
+
+    tabsEl.addEventListener('click', e => {
+      const b = e.target.closest('.tab'); if (!b) return;
+      current = b.dataset.tab;
+      tabsEl.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t === b));
+      window.scrollTo({ top: 0 });
+      render();
+    });
+    qEl.addEventListener('input', () => {
+      query = qEl.value;
+      clearEl.classList.toggle('show', !!query);
+      render();
+    });
+    clearEl.addEventListener('click', () => { query = ''; qEl.value = ''; clearEl.classList.remove('show'); qEl.focus(); render(); });
+
+    render();
+  </script>
+
+  <div class="wrap">
+    <div class="footer">
+      Tóm tắt từ Hướng dẫn 06-HD/VPTW (29/5/2026).<br>
+      Đây là bản tra cứu nhanh — khi soạn thảo chính thức cần đối chiếu nguyên văn.
+    </div>
+  </div>
+
+</body>
+
+</html>
